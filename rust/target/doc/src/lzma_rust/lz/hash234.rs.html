@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\lzma-rust-0.1.7\src\lz\hash234.rs`."><title>hash234.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="lzma_rust" data-themes="" data-resource-suffix="" data-rustdoc-version="1.92.0 (ded5c06cf 2025-12-08)" data-channel="1.92.0" data-search-js="search-d69d8955.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../../static.files/storage-e2aeef58.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-ce535bd0.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">lzma_rust\lz/</div>hash234.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span><span class="kw">super</span>::lz_encoder::LZEncoder;
+<a href=#2 id=2 data-nosnippet>2</a>
+<a href=#3 id=3 data-nosnippet>3</a><span class="kw">const </span>HASH2_SIZE: u32 = <span class="number">1 </span>&lt;&lt; <span class="number">10</span>;
+<a href=#4 id=4 data-nosnippet>4</a><span class="kw">const </span>HASH2_MASK: u32 = HASH2_SIZE - <span class="number">1</span>;
+<a href=#5 id=5 data-nosnippet>5</a><span class="kw">const </span>HASH3_SIZE: u32 = <span class="number">1 </span>&lt;&lt; <span class="number">16</span>;
+<a href=#6 id=6 data-nosnippet>6</a><span class="kw">const </span>HASH3_MASK: u32 = HASH3_SIZE - <span class="number">1</span>;
+<a href=#7 id=7 data-nosnippet>7</a>
+<a href=#8 id=8 data-nosnippet>8</a><span class="kw">pub struct </span>Hash234 {
+<a href=#9 id=9 data-nosnippet>9</a>    hash4_mask: u32,
+<a href=#10 id=10 data-nosnippet>10</a>    hash2_table: Vec&lt;i32&gt;,
+<a href=#11 id=11 data-nosnippet>11</a>    hash3_table: Vec&lt;i32&gt;,
+<a href=#12 id=12 data-nosnippet>12</a>    hash4_table: Vec&lt;i32&gt;,
+<a href=#13 id=13 data-nosnippet>13</a>    hash4_size: u32,
+<a href=#14 id=14 data-nosnippet>14</a>    hash2_value: i32,
+<a href=#15 id=15 data-nosnippet>15</a>    hash3_value: i32,
+<a href=#16 id=16 data-nosnippet>16</a>    hash4_value: i32,
+<a href=#17 id=17 data-nosnippet>17</a>}
+<a href=#18 id=18 data-nosnippet>18</a>
+<a href=#19 id=19 data-nosnippet>19</a><span class="kw">impl </span>Hash234 {
+<a href=#20 id=20 data-nosnippet>20</a>    <span class="kw">fn </span>get_hash4_size(dict_size: u32) -&gt; u32 {
+<a href=#21 id=21 data-nosnippet>21</a>        <span class="kw">let </span><span class="kw-2">mut </span>h = dict_size - <span class="number">1</span>;
+<a href=#22 id=22 data-nosnippet>22</a>        h |= h &gt;&gt; <span class="number">1</span>;
+<a href=#23 id=23 data-nosnippet>23</a>        h |= h &gt;&gt; <span class="number">2</span>;
+<a href=#24 id=24 data-nosnippet>24</a>        h |= h &gt;&gt; <span class="number">4</span>;
+<a href=#25 id=25 data-nosnippet>25</a>        h |= h &gt;&gt; <span class="number">8</span>;
+<a href=#26 id=26 data-nosnippet>26</a>        h &gt;&gt;= <span class="number">1</span>;
+<a href=#27 id=27 data-nosnippet>27</a>        h |= <span class="number">0xffff</span>;
+<a href=#28 id=28 data-nosnippet>28</a>        <span class="kw">if </span>h &gt; (<span class="number">1 </span>&lt;&lt; <span class="number">24</span>) {
+<a href=#29 id=29 data-nosnippet>29</a>            h &gt;&gt;= <span class="number">1</span>;
+<a href=#30 id=30 data-nosnippet>30</a>        }
+<a href=#31 id=31 data-nosnippet>31</a>        h + <span class="number">1
+<a href=#32 id=32 data-nosnippet>32</a>    </span>}
+<a href=#33 id=33 data-nosnippet>33</a>
+<a href=#34 id=34 data-nosnippet>34</a>    <span class="kw">pub fn </span>get_mem_usage(dict_size: u32) -&gt; u32 {
+<a href=#35 id=35 data-nosnippet>35</a>        (HASH2_MASK + HASH2_SIZE + <span class="self">Self</span>::get_hash4_size(dict_size)) / (<span class="number">1024 </span>/ <span class="number">4</span>) + <span class="number">4
+<a href=#36 id=36 data-nosnippet>36</a>    </span>}
+<a href=#37 id=37 data-nosnippet>37</a>
+<a href=#38 id=38 data-nosnippet>38</a>    <span class="kw">pub fn </span>new(dict_size: u32) -&gt; <span class="self">Self </span>{
+<a href=#39 id=39 data-nosnippet>39</a>        <span class="kw">let </span>hash2_table = <span class="macro">vec!</span>[<span class="number">0</span>; HASH2_SIZE <span class="kw">as _</span>];
+<a href=#40 id=40 data-nosnippet>40</a>        <span class="kw">let </span>hash3_table = <span class="macro">vec!</span>[<span class="number">0</span>; HASH3_SIZE <span class="kw">as _</span>];
+<a href=#41 id=41 data-nosnippet>41</a>        <span class="kw">let </span>hash4_size = <span class="self">Self</span>::get_hash4_size(dict_size);
+<a href=#42 id=42 data-nosnippet>42</a>        <span class="kw">let </span>hash4_mask = hash4_size - <span class="number">1</span>;
+<a href=#43 id=43 data-nosnippet>43</a>        <span class="kw">let </span>hash4_table = <span class="macro">vec!</span>[<span class="number">0</span>; hash4_size <span class="kw">as _</span>];
+<a href=#44 id=44 data-nosnippet>44</a>        <span class="self">Self </span>{
+<a href=#45 id=45 data-nosnippet>45</a>            hash4_mask,
+<a href=#46 id=46 data-nosnippet>46</a>            hash2_table,
+<a href=#47 id=47 data-nosnippet>47</a>            hash3_table,
+<a href=#48 id=48 data-nosnippet>48</a>            hash4_table,
+<a href=#49 id=49 data-nosnippet>49</a>            hash4_size,
+<a href=#50 id=50 data-nosnippet>50</a>            hash2_value: <span class="number">0</span>,
+<a href=#51 id=51 data-nosnippet>51</a>            hash3_value: <span class="number">0</span>,
+<a href=#52 id=52 data-nosnippet>52</a>            hash4_value: <span class="number">0</span>,
+<a href=#53 id=53 data-nosnippet>53</a>        }
+<a href=#54 id=54 data-nosnippet>54</a>    }
+<a href=#55 id=55 data-nosnippet>55</a>
+<a href=#56 id=56 data-nosnippet>56</a>    <span class="kw">pub fn </span>calc_hashes(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;</span>[u8]) {
+<a href=#57 id=57 data-nosnippet>57</a>        <span class="kw">let </span>tmp = CRC_TABLE[buf[<span class="number">0</span>] <span class="kw">as </span>usize] ^ (buf[<span class="number">1</span>] <span class="kw">as </span>u32);
+<a href=#58 id=58 data-nosnippet>58</a>        <span class="self">self</span>.hash2_value = (tmp &amp; HASH2_MASK) <span class="kw">as </span>i32;
+<a href=#59 id=59 data-nosnippet>59</a>        <span class="kw">let </span>tmp = tmp ^ ((buf[<span class="number">2</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8</span>);
+<a href=#60 id=60 data-nosnippet>60</a>        <span class="self">self</span>.hash3_value = (tmp &amp; HASH3_MASK) <span class="kw">as </span>i32;
+<a href=#61 id=61 data-nosnippet>61</a>        <span class="kw">let </span>tmp = tmp ^ CRC_TABLE[buf[<span class="number">3</span>] <span class="kw">as </span>usize] &lt;&lt; <span class="number">5</span>;
+<a href=#62 id=62 data-nosnippet>62</a>        <span class="self">self</span>.hash4_value = (tmp &amp; <span class="self">self</span>.hash4_mask) <span class="kw">as </span>i32;
+<a href=#63 id=63 data-nosnippet>63</a>    }
+<a href=#64 id=64 data-nosnippet>64</a>    <span class="kw">pub fn </span>get_hash2_pos(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
+<a href=#65 id=65 data-nosnippet>65</a>        <span class="self">self</span>.hash2_table[<span class="self">self</span>.hash2_value <span class="kw">as </span>usize]
+<a href=#66 id=66 data-nosnippet>66</a>    }
+<a href=#67 id=67 data-nosnippet>67</a>
+<a href=#68 id=68 data-nosnippet>68</a>    <span class="kw">pub fn </span>get_hash3_pos(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
+<a href=#69 id=69 data-nosnippet>69</a>        <span class="self">self</span>.hash3_table[<span class="self">self</span>.hash3_value <span class="kw">as </span>usize]
+<a href=#70 id=70 data-nosnippet>70</a>    }
+<a href=#71 id=71 data-nosnippet>71</a>
+<a href=#72 id=72 data-nosnippet>72</a>    <span class="kw">pub fn </span>get_hash4_pos(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
+<a href=#73 id=73 data-nosnippet>73</a>        <span class="self">self</span>.hash4_table[<span class="self">self</span>.hash4_value <span class="kw">as </span>usize]
+<a href=#74 id=74 data-nosnippet>74</a>    }
+<a href=#75 id=75 data-nosnippet>75</a>
+<a href=#76 id=76 data-nosnippet>76</a>    <span class="kw">pub fn </span>update_tables(<span class="kw-2">&amp;mut </span><span class="self">self</span>, pos: i32) {
+<a href=#77 id=77 data-nosnippet>77</a>        <span class="self">self</span>.hash2_table[<span class="self">self</span>.hash2_value <span class="kw">as </span>usize] = pos;
+<a href=#78 id=78 data-nosnippet>78</a>        <span class="self">self</span>.hash3_table[<span class="self">self</span>.hash3_value <span class="kw">as </span>usize] = pos;
+<a href=#79 id=79 data-nosnippet>79</a>        <span class="self">self</span>.hash4_table[<span class="self">self</span>.hash4_value <span class="kw">as </span>usize] = pos;
+<a href=#80 id=80 data-nosnippet>80</a>    }
+<a href=#81 id=81 data-nosnippet>81</a>
+<a href=#82 id=82 data-nosnippet>82</a>    <span class="kw">pub fn </span>normalize(<span class="kw-2">&amp;mut </span><span class="self">self</span>, offset: i32) {
+<a href=#83 id=83 data-nosnippet>83</a>        LZEncoder::normalize(<span class="kw-2">&amp;mut </span><span class="self">self</span>.hash2_table, offset);
+<a href=#84 id=84 data-nosnippet>84</a>        LZEncoder::normalize(<span class="kw-2">&amp;mut </span><span class="self">self</span>.hash3_table, offset);
+<a href=#85 id=85 data-nosnippet>85</a>        <span class="kw">let </span>hash4_size = <span class="self">self</span>.hash4_size <span class="kw">as </span>usize;
+<a href=#86 id=86 data-nosnippet>86</a>        LZEncoder::normalize(<span class="kw-2">&amp;mut </span><span class="self">self</span>.hash4_table[..hash4_size], offset);
+<a href=#87 id=87 data-nosnippet>87</a>    }
+<a href=#88 id=88 data-nosnippet>88</a>}
+<a href=#89 id=89 data-nosnippet>89</a>
+<a href=#90 id=90 data-nosnippet>90</a><span class="kw">const </span>CRC_TABLE: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[u32] = <span class="kw-2">&amp;</span>[
+<a href=#91 id=91 data-nosnippet>91</a>    <span class="number">0x0</span>, <span class="number">0x77073096</span>, <span class="number">0xee0e612c</span>, <span class="number">0x990951ba</span>, <span class="number">0x76dc419</span>, <span class="number">0x706af48f</span>, <span class="number">0xe963a535</span>, <span class="number">0x9e6495a3</span>,
+<a href=#92 id=92 data-nosnippet>92</a>    <span class="number">0xedb8832</span>, <span class="number">0x79dcb8a4</span>, <span class="number">0xe0d5e91e</span>, <span class="number">0x97d2d988</span>, <span class="number">0x9b64c2b</span>, <span class="number">0x7eb17cbd</span>, <span class="number">0xe7b82d07</span>, <span class="number">0x90bf1d91</span>,
+<a href=#93 id=93 data-nosnippet>93</a>    <span class="number">0x1db71064</span>, <span class="number">0x6ab020f2</span>, <span class="number">0xf3b97148</span>, <span class="number">0x84be41de</span>, <span class="number">0x1adad47d</span>, <span class="number">0x6ddde4eb</span>, <span class="number">0xf4d4b551</span>, <span class="number">0x83d385c7</span>,
+<a href=#94 id=94 data-nosnippet>94</a>    <span class="number">0x136c9856</span>, <span class="number">0x646ba8c0</span>, <span class="number">0xfd62f97a</span>, <span class="number">0x8a65c9ec</span>, <span class="number">0x14015c4f</span>, <span class="number">0x63066cd9</span>, <span class="number">0xfa0f3d63</span>, <span class="number">0x8d080df5</span>,
+<a href=#95 id=95 data-nosnippet>95</a>    <span class="number">0x3b6e20c8</span>, <span class="number">0x4c69105e</span>, <span class="number">0xd56041e4</span>, <span class="number">0xa2677172</span>, <span class="number">0x3c03e4d1</span>, <span class="number">0x4b04d447</span>, <span class="number">0xd20d85fd</span>, <span class="number">0xa50ab56b</span>,
+<a href=#96 id=96 data-nosnippet>96</a>    <span class="number">0x35b5a8fa</span>, <span class="number">0x42b2986c</span>, <span class="number">0xdbbbc9d6</span>, <span class="number">0xacbcf940</span>, <span class="number">0x32d86ce3</span>, <span class="number">0x45df5c75</span>, <span class="number">0xdcd60dcf</span>, <span class="number">0xabd13d59</span>,
+<a href=#97 id=97 data-nosnippet>97</a>    <span class="number">0x26d930ac</span>, <span class="number">0x51de003a</span>, <span class="number">0xc8d75180</span>, <span class="number">0xbfd06116</span>, <span class="number">0x21b4f4b5</span>, <span class="number">0x56b3c423</span>, <span class="number">0xcfba9599</span>, <span class="number">0xb8bda50f</span>,
+<a href=#98 id=98 data-nosnippet>98</a>    <span class="number">0x2802b89e</span>, <span class="number">0x5f058808</span>, <span class="number">0xc60cd9b2</span>, <span class="number">0xb10be924</span>, <span class="number">0x2f6f7c87</span>, <span class="number">0x58684c11</span>, <span class="number">0xc1611dab</span>, <span class="number">0xb6662d3d</span>,
+<a href=#99 id=99 data-nosnippet>99</a>    <span class="number">0x76dc4190</span>, <span class="number">0x1db7106</span>, <span class="number">0x98d220bc</span>, <span class="number">0xefd5102a</span>, <span class="number">0x71b18589</span>, <span class="number">0x6b6b51f</span>, <span class="number">0x9fbfe4a5</span>, <span class="number">0xe8b8d433</span>,
+<a href=#100 id=100 data-nosnippet>100</a>    <span class="number">0x7807c9a2</span>, <span class="number">0xf00f934</span>, <span class="number">0x9609a88e</span>, <span class="number">0xe10e9818</span>, <span class="number">0x7f6a0dbb</span>, <span class="number">0x86d3d2d</span>, <span class="number">0x91646c97</span>, <span class="number">0xe6635c01</span>,
+<a href=#101 id=101 data-nosnippet>101</a>    <span class="number">0x6b6b51f4</span>, <span class="number">0x1c6c6162</span>, <span class="number">0x856530d8</span>, <span class="number">0xf262004e</span>, <span class="number">0x6c0695ed</span>, <span class="number">0x1b01a57b</span>, <span class="number">0x8208f4c1</span>, <span class="number">0xf50fc457</span>,
+<a href=#102 id=102 data-nosnippet>102</a>    <span class="number">0x65b0d9c6</span>, <span class="number">0x12b7e950</span>, <span class="number">0x8bbeb8ea</span>, <span class="number">0xfcb9887c</span>, <span class="number">0x62dd1ddf</span>, <span class="number">0x15da2d49</span>, <span class="number">0x8cd37cf3</span>, <span class="number">0xfbd44c65</span>,
+<a href=#103 id=103 data-nosnippet>103</a>    <span class="number">0x4db26158</span>, <span class="number">0x3ab551ce</span>, <span class="number">0xa3bc0074</span>, <span class="number">0xd4bb30e2</span>, <span class="number">0x4adfa541</span>, <span class="number">0x3dd895d7</span>, <span class="number">0xa4d1c46d</span>, <span class="number">0xd3d6f4fb</span>,
+<a href=#104 id=104 data-nosnippet>104</a>    <span class="number">0x4369e96a</span>, <span class="number">0x346ed9fc</span>, <span class="number">0xad678846</span>, <span class="number">0xda60b8d0</span>, <span class="number">0x44042d73</span>, <span class="number">0x33031de5</span>, <span class="number">0xaa0a4c5f</span>, <span class="number">0xdd0d7cc9</span>,
+<a href=#105 id=105 data-nosnippet>105</a>    <span class="number">0x5005713c</span>, <span class="number">0x270241aa</span>, <span class="number">0xbe0b1010</span>, <span class="number">0xc90c2086</span>, <span class="number">0x5768b525</span>, <span class="number">0x206f85b3</span>, <span class="number">0xb966d409</span>, <span class="number">0xce61e49f</span>,
+<a href=#106 id=106 data-nosnippet>106</a>    <span class="number">0x5edef90e</span>, <span class="number">0x29d9c998</span>, <span class="number">0xb0d09822</span>, <span class="number">0xc7d7a8b4</span>, <span class="number">0x59b33d17</span>, <span class="number">0x2eb40d81</span>, <span class="number">0xb7bd5c3b</span>, <span class="number">0xc0ba6cad</span>,
+<a href=#107 id=107 data-nosnippet>107</a>    <span class="number">0xedb88320</span>, <span class="number">0x9abfb3b6</span>, <span class="number">0x3b6e20c</span>, <span class="number">0x74b1d29a</span>, <span class="number">0xead54739</span>, <span class="number">0x9dd277af</span>, <span class="number">0x4db2615</span>, <span class="number">0x73dc1683</span>,
+<a href=#108 id=108 data-nosnippet>108</a>    <span class="number">0xe3630b12</span>, <span class="number">0x94643b84</span>, <span class="number">0xd6d6a3e</span>, <span class="number">0x7a6a5aa8</span>, <span class="number">0xe40ecf0b</span>, <span class="number">0x9309ff9d</span>, <span class="number">0xa00ae27</span>, <span class="number">0x7d079eb1</span>,
+<a href=#109 id=109 data-nosnippet>109</a>    <span class="number">0xf00f9344</span>, <span class="number">0x8708a3d2</span>, <span class="number">0x1e01f268</span>, <span class="number">0x6906c2fe</span>, <span class="number">0xf762575d</span>, <span class="number">0x806567cb</span>, <span class="number">0x196c3671</span>, <span class="number">0x6e6b06e7</span>,
+<a href=#110 id=110 data-nosnippet>110</a>    <span class="number">0xfed41b76</span>, <span class="number">0x89d32be0</span>, <span class="number">0x10da7a5a</span>, <span class="number">0x67dd4acc</span>, <span class="number">0xf9b9df6f</span>, <span class="number">0x8ebeeff9</span>, <span class="number">0x17b7be43</span>, <span class="number">0x60b08ed5</span>,
+<a href=#111 id=111 data-nosnippet>111</a>    <span class="number">0xd6d6a3e8</span>, <span class="number">0xa1d1937e</span>, <span class="number">0x38d8c2c4</span>, <span class="number">0x4fdff252</span>, <span class="number">0xd1bb67f1</span>, <span class="number">0xa6bc5767</span>, <span class="number">0x3fb506dd</span>, <span class="number">0x48b2364b</span>,
+<a href=#112 id=112 data-nosnippet>112</a>    <span class="number">0xd80d2bda</span>, <span class="number">0xaf0a1b4c</span>, <span class="number">0x36034af6</span>, <span class="number">0x41047a60</span>, <span class="number">0xdf60efc3</span>, <span class="number">0xa867df55</span>, <span class="number">0x316e8eef</span>, <span class="number">0x4669be79</span>,
+<a href=#113 id=113 data-nosnippet>113</a>    <span class="number">0xcb61b38c</span>, <span class="number">0xbc66831a</span>, <span class="number">0x256fd2a0</span>, <span class="number">0x5268e236</span>, <span class="number">0xcc0c7795</span>, <span class="number">0xbb0b4703</span>, <span class="number">0x220216b9</span>, <span class="number">0x5505262f</span>,
+<a href=#114 id=114 data-nosnippet>114</a>    <span class="number">0xc5ba3bbe</span>, <span class="number">0xb2bd0b28</span>, <span class="number">0x2bb45a92</span>, <span class="number">0x5cb36a04</span>, <span class="number">0xc2d7ffa7</span>, <span class="number">0xb5d0cf31</span>, <span class="number">0x2cd99e8b</span>, <span class="number">0x5bdeae1d</span>,
+<a href=#115 id=115 data-nosnippet>115</a>    <span class="number">0x9b64c2b0</span>, <span class="number">0xec63f226</span>, <span class="number">0x756aa39c</span>, <span class="number">0x26d930a</span>, <span class="number">0x9c0906a9</span>, <span class="number">0xeb0e363f</span>, <span class="number">0x72076785</span>, <span class="number">0x5005713</span>,
+<a href=#116 id=116 data-nosnippet>116</a>    <span class="number">0x95bf4a82</span>, <span class="number">0xe2b87a14</span>, <span class="number">0x7bb12bae</span>, <span class="number">0xcb61b38</span>, <span class="number">0x92d28e9b</span>, <span class="number">0xe5d5be0d</span>, <span class="number">0x7cdcefb7</span>, <span class="number">0xbdbdf21</span>,
+<a href=#117 id=117 data-nosnippet>117</a>    <span class="number">0x86d3d2d4</span>, <span class="number">0xf1d4e242</span>, <span class="number">0x68ddb3f8</span>, <span class="number">0x1fda836e</span>, <span class="number">0x81be16cd</span>, <span class="number">0xf6b9265b</span>, <span class="number">0x6fb077e1</span>, <span class="number">0x18b74777</span>,
+<a href=#118 id=118 data-nosnippet>118</a>    <span class="number">0x88085ae6</span>, <span class="number">0xff0f6a70</span>, <span class="number">0x66063bca</span>, <span class="number">0x11010b5c</span>, <span class="number">0x8f659eff</span>, <span class="number">0xf862ae69</span>, <span class="number">0x616bffd3</span>, <span class="number">0x166ccf45</span>,
+<a href=#119 id=119 data-nosnippet>119</a>    <span class="number">0xa00ae278</span>, <span class="number">0xd70dd2ee</span>, <span class="number">0x4e048354</span>, <span class="number">0x3903b3c2</span>, <span class="number">0xa7672661</span>, <span class="number">0xd06016f7</span>, <span class="number">0x4969474d</span>, <span class="number">0x3e6e77db</span>,
+<a href=#120 id=120 data-nosnippet>120</a>    <span class="number">0xaed16a4a</span>, <span class="number">0xd9d65adc</span>, <span class="number">0x40df0b66</span>, <span class="number">0x37d83bf0</span>, <span class="number">0xa9bcae53</span>, <span class="number">0xdebb9ec5</span>, <span class="number">0x47b2cf7f</span>, <span class="number">0x30b5ffe9</span>,
+<a href=#121 id=121 data-nosnippet>121</a>    <span class="number">0xbdbdf21c</span>, <span class="number">0xcabac28a</span>, <span class="number">0x53b39330</span>, <span class="number">0x24b4a3a6</span>, <span class="number">0xbad03605</span>, <span class="number">0xcdd70693</span>, <span class="number">0x54de5729</span>, <span class="number">0x23d967bf</span>,
+<a href=#122 id=122 data-nosnippet>122</a>    <span class="number">0xb3667a2e</span>, <span class="number">0xc4614ab8</span>, <span class="number">0x5d681b02</span>, <span class="number">0x2a6f2b94</span>, <span class="number">0xb40bbe37</span>, <span class="number">0xc30c8ea1</span>, <span class="number">0x5a05df1b</span>, <span class="number">0x2d02ef8d</span>,
+<a href=#123 id=123 data-nosnippet>123</a>];</code></pre></div></section></main></body></html>

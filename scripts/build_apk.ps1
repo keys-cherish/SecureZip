@@ -1,0 +1,84 @@
+#!/usr/bin/env pwsh
+# 完整构建脚本：Rust + Flutter APK
+# 
+# 使用方法:
+#   .\build_apk.ps1           # 构建 Debug APK
+#   .\build_apk.ps1 -Release  # 构建 Release APK
+#   .\build_apk.ps1 -SkipRust # 跳过 Rust 构建
+
+param(
+    [switch]$Release,
+    [switch]$SkipRust,
+    [switch]$Universal  # 只构建通用 APK
+)
+
+$ErrorActionPreference = "Stop"
+
+$ProjectRoot = Split-Path -Parent $PSScriptRoot
+$ScriptsDir = $PSScriptRoot
+$OutputDir = Join-Path $ProjectRoot "build/app/outputs/flutter-apk"
+
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "SecureZip APK 构建脚本" -ForegroundColor Cyan
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "模式: $(if ($Release) { 'Release' } else { 'Debug' })" -ForegroundColor Yellow
+
+# 步骤 1: 构建 Rust 库
+if (-not $SkipRust) {
+    Write-Host "`n[1/3] 构建 Rust 库..." -ForegroundColor Yellow
+    $rustScript = Join-Path $ScriptsDir "build_android_rust.ps1"
+    
+    if ($Release) {
+        & $rustScript -Release
+    } else {
+        & $rustScript
+    }
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Rust 构建失败!" -ForegroundColor Red
+        exit 1
+    }
+} else {
+    Write-Host "`n[1/3] 跳过 Rust 构建" -ForegroundColor Gray
+}
+
+# 步骤 2: 构建 Flutter APK
+Write-Host "`n[2/3] 构建 Flutter APK..." -ForegroundColor Yellow
+Push-Location $ProjectRoot
+
+try {
+    if ($Release) {
+        if ($Universal) {
+            flutter build apk --release
+        } else {
+            flutter build apk --split-per-abi --release
+        }
+    } else {
+        flutter build apk --debug
+    }
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Flutter 构建失败!" -ForegroundColor Red
+        Pop-Location
+        exit 1
+    }
+} finally {
+    Pop-Location
+}
+
+# 步骤 3: 显示输出
+Write-Host "`n[3/3] 构建完成!" -ForegroundColor Green
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "输出文件:" -ForegroundColor Yellow
+
+if (Test-Path $OutputDir) {
+    Get-ChildItem -Path $OutputDir -Filter "*.apk" | ForEach-Object {
+        $size = $_.Length / 1MB
+        Write-Host "  $($_.Name) ($($size.ToString('F2')) MB)" -ForegroundColor Green
+        Write-Host "    路径: $($_.FullName)" -ForegroundColor Gray
+    }
+} else {
+    Write-Host "  未找到输出目录: $OutputDir" -ForegroundColor Yellow
+}
+
+Write-Host "`n========================================" -ForegroundColor Cyan

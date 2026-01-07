@@ -1,0 +1,1 @@
+D:\temp_build\sezip\rust\target\aarch64-linux-android\release\libsz_webdav.rlib: D:\temp_build\sezip\rust\crates\sz-core\src\error.rs D:\temp_build\sezip\rust\crates\sz-core\src\lib.rs D:\temp_build\sezip\rust\crates\sz-core\src\types.rs D:\temp_build\sezip\rust\crates\sz-webdav\src\client.rs D:\temp_build\sezip\rust\crates\sz-webdav\src\lib.rs

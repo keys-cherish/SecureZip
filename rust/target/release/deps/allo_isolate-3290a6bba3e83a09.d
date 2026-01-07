@@ -1,0 +1,11 @@
+D:\temp_build\sezip\rust\target\release\deps\allo_isolate-3290a6bba3e83a09.d: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\lib.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\dart_array.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\into_dart.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\into_dart_extra.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\ffi.rs
+
+D:\temp_build\sezip\rust\target\release\deps\liballo_isolate-3290a6bba3e83a09.rlib: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\lib.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\dart_array.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\into_dart.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\into_dart_extra.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\ffi.rs
+
+D:\temp_build\sezip\rust\target\release\deps\liballo_isolate-3290a6bba3e83a09.rmeta: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\lib.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\dart_array.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\into_dart.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\into_dart_extra.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\ffi.rs
+
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\lib.rs:
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\dart_array.rs:
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\into_dart.rs:
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\into_dart_extra.rs:
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allo-isolate-0.1.27\src\ffi.rs:

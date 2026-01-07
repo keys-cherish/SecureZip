@@ -1,0 +1,1 @@
+D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\libsz_core.rlib: D:\temp_build\sezip\rust\crates\sz-core\src\error.rs D:\temp_build\sezip\rust\crates\sz-core\src\lib.rs D:\temp_build\sezip\rust\crates\sz-core\src\types.rs

@@ -1,0 +1,18 @@
+[package]
+name = "sz-compress"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+sz-core = { path = "../sz-core" }
+sevenz-rust = { workspace = true }
+zstd = { workspace = true }
+aes-gcm = { workspace = true }
+argon2 = { workspace = true }
+rand = { workspace = true }
+tar = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+num_cpus = "1.16"
+tokio = { workspace = true }
+log = { workspace = true }

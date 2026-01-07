@@ -1,0 +1,124 @@
+cargo:rerun-if-env-changed=ZSTD_SYS_USE_PKG_CONFIG
+OUT_DIR = Some(D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\zstd-sys-63d3f3b3b6570105\out)
+OPT_LEVEL = Some(3)
+TARGET = Some(armv7-linux-androideabi)
+CARGO_ENCODED_RUSTFLAGS = Some()
+HOST = Some(x86_64-pc-windows-gnu)
+cargo:rerun-if-env-changed=CC_armv7-linux-androideabi
+CC_armv7-linux-androideabi = Some(D:\ProgramData\ndk\28.2.13676358\toolchains\llvm\prebuilt\windows-x86_64\bin\clang)
+cargo:rerun-if-env-changed=CC_KNOWN_WRAPPER_CUSTOM
+CC_KNOWN_WRAPPER_CUSTOM = None
+RUSTC_WRAPPER = None
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+DEBUG = Some(false)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=TARGET_CFLAGS
+TARGET_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_armv7_linux_androideabi
+CFLAGS_armv7_linux_androideabi = None
+cargo:rerun-if-env-changed=CFLAGS_armv7-linux-androideabi
+CFLAGS_armv7-linux-androideabi = Some(--target=armv7a-linux-androideabi21)
+cargo:rerun-if-env-changed=CC_SHELL_ESCAPED_FLAGS
+CC_SHELL_ESCAPED_FLAGS = None
+OUT_DIR = Some(D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\zstd-sys-63d3f3b3b6570105\out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(armv7-linux-androideabi)
+HOST = Some(x86_64-pc-windows-gnu)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=TARGET_CFLAGS
+TARGET_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_armv7_linux_androideabi
+CFLAGS_armv7_linux_androideabi = None
+cargo:rerun-if-env-changed=CFLAGS_armv7-linux-androideabi
+CFLAGS_armv7-linux-androideabi = Some(--target=armv7a-linux-androideabi21)
+cargo:rerun-if-env-changed=CC_SHELL_ESCAPED_FLAGS
+CC_SHELL_ESCAPED_FLAGS = None
+OUT_DIR = Some(D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\zstd-sys-63d3f3b3b6570105\out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(armv7-linux-androideabi)
+HOST = Some(x86_64-pc-windows-gnu)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=TARGET_CFLAGS
+TARGET_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_armv7_linux_androideabi
+CFLAGS_armv7_linux_androideabi = None
+cargo:rerun-if-env-changed=CFLAGS_armv7-linux-androideabi
+CFLAGS_armv7-linux-androideabi = Some(--target=armv7a-linux-androideabi21)
+cargo:rerun-if-env-changed=CC_SHELL_ESCAPED_FLAGS
+CC_SHELL_ESCAPED_FLAGS = None
+OUT_DIR = Some(D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\zstd-sys-63d3f3b3b6570105\out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(armv7-linux-androideabi)
+HOST = Some(x86_64-pc-windows-gnu)
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=TARGET_CFLAGS
+TARGET_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS_armv7_linux_androideabi
+CFLAGS_armv7_linux_androideabi = None
+cargo:rerun-if-env-changed=CFLAGS_armv7-linux-androideabi
+CFLAGS_armv7-linux-androideabi = Some(--target=armv7a-linux-androideabi21)
+cargo:rerun-if-env-changed=CC_SHELL_ESCAPED_FLAGS
+CC_SHELL_ESCAPED_FLAGS = None
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+exit code: 0
+cargo:rerun-if-env-changed=AR_armv7-linux-androideabi
+AR_armv7-linux-androideabi = Some(D:\ProgramData\ndk\28.2.13676358\toolchains\llvm\prebuilt\windows-x86_64\bin\llvm-ar)
+cargo:rerun-if-env-changed=ARFLAGS
+ARFLAGS = None
+cargo:rerun-if-env-changed=TARGET_ARFLAGS
+TARGET_ARFLAGS = None
+cargo:rerun-if-env-changed=ARFLAGS_armv7_linux_androideabi
+ARFLAGS_armv7_linux_androideabi = None
+cargo:rerun-if-env-changed=ARFLAGS_armv7-linux-androideabi
+ARFLAGS_armv7-linux-androideabi = None
+cargo:rustc-link-lib=static=zstd
+cargo:rustc-link-search=native=D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\zstd-sys-63d3f3b3b6570105\out
+cargo:root=D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\zstd-sys-63d3f3b3b6570105\out
+cargo:include=C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\zstd-sys-2.0.16+zstd.1.5.7\zstd/lib

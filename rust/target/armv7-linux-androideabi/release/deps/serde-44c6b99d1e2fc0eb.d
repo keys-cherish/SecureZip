@@ -1,0 +1,14 @@
+D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\deps\serde-44c6b99d1e2fc0eb.d: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\serde-4b69f10a8a21fe95\out/private.rs
+
+D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\deps\libserde-44c6b99d1e2fc0eb.rlib: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\serde-4b69f10a8a21fe95\out/private.rs
+
+D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\deps\libserde-44c6b99d1e2fc0eb.rmeta: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\serde-4b69f10a8a21fe95\out/private.rs
+
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs:
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs:
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs:
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs:
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs:
+D:\temp_build\sezip\rust\target\armv7-linux-androideabi\release\build\serde-4b69f10a8a21fe95\out/private.rs:
+
+# env-dep:OUT_DIR=D:\\temp_build\\sezip\\rust\\target\\armv7-linux-androideabi\\release\\build\\serde-4b69f10a8a21fe95\\out

@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="The `nt-time` crate is a Windows file time library."><title>nt_time - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="nt_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.92.0 (ded5c06cf 2025-12-08)" data-channel="1.92.0" data-search-js="search-d69d8955.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-ce535bd0.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate nt_time</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../nt_time/index.html">nt_time</a><span class="version">0.8.1</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">Examples</a><ul><li><a href="#basic-usage" title="Basic usage">Basic usage</a></li><li><a href="#conversion-from-and-to-other-system-times" title="Conversion from and to other system times">Conversion from and to other system times</a></li><li><a href="#formatting-and-printing-the-file-time" title="Formatting and printing the file time">Formatting and printing the file time</a></li></ul></li></ul><h3><a href="#reexports">Crate Items</a></h3><ul class="block"><li><a href="#reexports" title="Re-exports">Re-exports</a></li><li><a href="#modules" title="Modules">Modules</a></li><li><a href="#structs" title="Structs">Structs</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>nt_time</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/nt_time/lib.rs.html#5-119">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The <code>nt-time</code> crate is a <a href="https://docs.microsoft.com/en-us/windows/win32/sysinfo/file-times">Windows file time</a> library.</p>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2><h3 id="basic-usage"><a class="doc-anchor" href="#basic-usage">§</a>Basic usage</h3>
+<p>The <a href="struct.FileTime.html" title="struct nt_time::FileTime"><code>FileTime</code></a> is a type that represents the file time. This type can be
+converted from and to a type which represents time such as
+<a href="../time/offset_date_time/struct.OffsetDateTime.html" title="struct time::offset_date_time::OffsetDateTime"><code>time::OffsetDateTime</code></a>. Addition and subtraction are also supported.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>core::time::Duration;
+
+<span class="kw">use </span>nt_time::{
+    time::{macros::datetime, OffsetDateTime},
+    FileTime,
+};
+
+<span class="kw">let </span>ft = FileTime::NT_TIME_EPOCH;
+<span class="macro">assert_eq!</span>(
+    OffsetDateTime::try_from(ft).unwrap(),
+    <span class="macro">datetime!</span>(<span class="number">1601</span>-<span class="number">01</span>-<span class="number">01 00</span>:<span class="number">00 </span>UTC)
+);
+
+<span class="kw">let </span>ft = ft + Duration::from_secs(<span class="number">11_644_473_600</span>);
+<span class="macro">assert_eq!</span>(
+    OffsetDateTime::try_from(ft).unwrap(),
+    OffsetDateTime::UNIX_EPOCH
+);
+<span class="macro">assert_eq!</span>(ft.to_raw(), <span class="number">116_444_736_000_000_000</span>);
+
+<span class="macro">assert_eq!</span>(FileTime::new(u64::MAX), FileTime::MAX);</code></pre></div><h3 id="conversion-from-and-to-other-system-times"><a class="doc-anchor" href="#conversion-from-and-to-other-system-times">§</a>Conversion from and to other system times</h3>
+<p><a href="struct.FileTime.html" title="struct nt_time::FileTime"><code>FileTime</code></a> can be converted from and to other system times such as <a href="https://en.wikipedia.org/wiki/Unix_time">Unix
+time</a> or <a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/ms-dos-date-and-time">MS-DOS date and time</a>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>core::time::Duration;
+
+<span class="kw">use </span>nt_time::{
+    time::{OffsetDateTime, UtcOffset},
+    FileTime,
+};
+
+<span class="comment">// `1970-01-01 00:00:00 UTC`.
+</span><span class="kw">let </span>ut = i64::default();
+<span class="macro">assert_eq!</span>(
+    OffsetDateTime::from_unix_timestamp(ut).unwrap(),
+    OffsetDateTime::UNIX_EPOCH
+);
+
+<span class="kw">let </span>ft = FileTime::from_unix_time(ut).unwrap();
+<span class="macro">assert_eq!</span>(ft, FileTime::UNIX_EPOCH);
+
+<span class="comment">// `1980-01-01 00:00:00 UTC`.
+</span><span class="kw">let </span>ft = ft + Duration::from_secs(<span class="number">315_532_800</span>);
+<span class="kw">let </span>dos_dt = ft.to_dos_date_time(<span class="prelude-val">Some</span>(UtcOffset::UTC)).unwrap();
+<span class="macro">assert_eq!</span>(dos_dt, (<span class="number">0x0021</span>, u16::MIN, u8::MIN, <span class="prelude-val">Some</span>(UtcOffset::UTC)));</code></pre></div><h3 id="formatting-and-printing-the-file-time"><a class="doc-anchor" href="#formatting-and-printing-the-file-time">§</a>Formatting and printing the file time</h3>
+<p>The formatting traits for <a href="struct.FileTime.html" title="struct nt_time::FileTime"><code>FileTime</code></a> are implemented to show the
+underlying <a href="https://doc.rust-lang.org/1.92.0/std/primitive.u64.html" title="primitive u64"><code>u64</code></a> value. If you need a human-readable date and time,
+convert <a href="struct.FileTime.html" title="struct nt_time::FileTime"><code>FileTime</code></a> to a type which represents time such as
+<a href="../time/offset_date_time/struct.OffsetDateTime.html" title="struct time::offset_date_time::OffsetDateTime"><code>time::OffsetDateTime</code></a>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>nt_time::{time::OffsetDateTime, FileTime};
+
+<span class="kw">let </span>ft = FileTime::NT_TIME_EPOCH;
+<span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">"{ft}"</span>), <span class="string">"0"</span>);
+<span class="macro">assert_eq!</span>(
+    <span class="macro">format!</span>(<span class="string">"{}"</span>, OffsetDateTime::try_from(ft).unwrap()),
+    <span class="string">"1601-01-01 0:00:00.0 +00:00:00"
+</span>);</code></pre></div></div></details><h2 id="reexports" class="section-header">Re-exports<a href="#reexports" class="anchor">§</a></h2><dl class="item-table reexports"><dt id="reexport.time"><code>pub use <a class="mod" href="../time/index.html" title="mod time">time</a>;</code></dt></dl><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="error/index.html" title="mod nt_time::error">error</a></dt><dd>Error types for this crate.</dd></dl><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.FileTime.html" title="struct nt_time::FileTime">File<wbr>Time</a></dt><dd><code>FileTime</code> is a type that represents a <a href="https://docs.microsoft.com/en-us/windows/win32/sysinfo/file-times">Windows file time</a>.</dd></dl></section></div></main></body></html>

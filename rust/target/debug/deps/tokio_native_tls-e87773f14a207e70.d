@@ -1,0 +1,7 @@
+D:\temp_build\sezip\rust\target\debug\deps\tokio_native_tls-e87773f14a207e70.d: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-native-tls-0.3.1\src\lib.rs
+
+D:\temp_build\sezip\rust\target\debug\deps\libtokio_native_tls-e87773f14a207e70.rlib: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-native-tls-0.3.1\src\lib.rs
+
+D:\temp_build\sezip\rust\target\debug\deps\libtokio_native_tls-e87773f14a207e70.rmeta: C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-native-tls-0.3.1\src\lib.rs
+
+C:\Users\test\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-native-tls-0.3.1\src\lib.rs:
