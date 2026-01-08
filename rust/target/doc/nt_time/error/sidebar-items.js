@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["DosDateTimeRangeErrorKind","FileTimeRangeErrorKind"],"struct":["DosDateTimeRangeError","FileTimeRangeError","ParseFileTimeError"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["DICT_SIZE_MAX","DICT_SIZE_MIN"],"fn":["get_extra_size_before","lzma2_get_memery_usage","lzma_get_memery_usage","lzma_get_memery_usage_by_props"],"struct":["CountingWriter","LZMA2Options","LZMA2Reader","LZMA2Writer","LZMACoder","LZMAReader","LZMAWriter"]};
