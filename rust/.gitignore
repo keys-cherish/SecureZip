@@ -10,6 +10,14 @@
 .history
 .svn/
 .swiftpm/
+target/
+.cargo/
+.idea-mac/
+.terraform/
+.terraform.lock.hcl
+.mvn/
+.vagrant/
+env/
 migrate_working_dir/
 
 # IntelliJ related
