@@ -68,7 +68,8 @@ impl AesEncryptor {
             .decode(encrypted)
             .map_err(|e| SzError::Decryption(format!("Base64解码失败: {}", e)))?;
 
-        if combined.len() < 13 {
+        // AES-GCM 最小长度：12(nonce) + 16(GCM tag) + 1(最小明文) = 29
+        if combined.len() < 29 {
             return Err(SzError::Decryption("密文太短".to_string()));
         }
 
@@ -91,13 +92,15 @@ impl AesEncryptor {
 
 /// 从密码派生 32 字节密钥
 pub fn derive_key_from_password(password: &str, salt: &[u8]) -> SzResult<[u8; 32]> {
-    use sha2::{Sha256, Digest};
-    use argon2::Argon2;
+    use argon2::{Argon2, Params, Algorithm, Version};
 
-    // 使用 Argon2id 派生密钥
-    let argon2 = Argon2::default();
+    // 显式指定 Argon2id 参数，确保跨版本一致性
+    // m=65536 (64MB), t=3, p=4
+    let params = Params::new(65536, 3, 4, Some(32))
+        .map_err(|e| SzError::Encryption(format!("Argon2 参数错误: {}", e)))?;
+    let argon2 = Argon2::new(Algorithm::Argon2id, Version::V0x13, params);
     let mut output_key = [0u8; 32];
-    
+
     argon2.hash_password_into(
         password.as_bytes(),
         salt,

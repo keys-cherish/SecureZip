@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cargo check:*)",
+      "Bash(cargo test:*)",
+      "Bash(python:*)",
+      "Bash(flutter analyze)",
+      "Bash(cargo ndk:*)",
+      "Bash(rustup target list:*)",
+      "Bash(export ANDROID_NDK_HOME=\"D:/ProgramData/ndk/28.2.13676358\")",
+      "Bash(powershell:*)",
+      "Bash(flutter build apk:*)",
+      "Bash(flutter doctor:*)",
+      "Bash(\"/d/下载/dragonwell-17.0.15.0.16+6-GA/bin/java.exe\":*)",
+      "Bash(export:*)",
+      "Bash(export PATH=\"$JAVA_HOME/bin:$PATH\")",
+      "Bash(ls:*)",
+      "Bash(echo:*)",
+      "Bash(python3:*)",
+      "Bash(flutter analyze:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(cmd //c \"mklink /J D:\\\\AndroidNDK \"\"D:\\\\Program Files\\\\EnvironmentVariables\\\\ndk\\\\28.2.13676358\"\"\")",
+      "Bash(cmd //c \"dir D:\\\\AndroidNDK\")",
+      "Bash(cmd //c \"rmdir D:\\\\AndroidNDK\")",
+      "Bash(java:*)",
+      "Bash(\"/d/Program Files/EnvironmentVariables/dragonwell-17/bin/java\" -version)",
+      "Bash(ANDROID_NDK_HOME=\"D:\\\\AndroidNDK\" ANDROID_SDK_ROOT=\"D:\\\\AndroidSDK\" powershell.exe -ExecutionPolicy Bypass -File scripts/build_android_rust.ps1 -Release -SkipInstall)",
+      "Bash(JAVA_HOME=\"D:\\\\JDK17\" ANDROID_SDK_ROOT=\"D:\\\\AndroidSDK\" ANDROID_NDK_HOME=\"D:\\\\AndroidNDK\" powershell.exe -ExecutionPolicy Bypass -File scripts/build_apk.ps1 -Release -SkipRust)",
+      "Bash(uv pip:*)",
+      "Bash(PYTHONIOENCODING=utf-8 python:*)",
+      "Bash(./gradlew assembleDebug:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(rm:*)",
+      "Bash(adb logcat:*)",
+      "Bash(cmd:*)",
+      "Bash(__NEW_LINE_2fa9ca5831be2b01__:*)",
+      "Bash(cargo build:*)"
+    ]
+  }
+}

@@ -141,9 +141,15 @@ impl FilenameObfuscator {
             .ok_or_else(|| sz_core::SzError::InvalidArgument("无效的加密文件名".to_string()))?;
 
         // 还原 Base64 字符
-        let encrypted = encrypted
+        let mut encrypted = encrypted
             .replace('-', "+")
             .replace('_', "/");
+
+        // 还原 Base64 padding
+        let pad_len = (4 - encrypted.len() % 4) % 4;
+        for _ in 0..pad_len {
+            encrypted.push('=');
+        }
 
         let encryptor = AesEncryptor::new(&key);
         encryptor.decrypt_string(&encrypted)

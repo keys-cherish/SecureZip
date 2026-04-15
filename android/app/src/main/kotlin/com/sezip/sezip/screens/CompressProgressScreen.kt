@@ -50,6 +50,15 @@ fun CompressProgressScreen(
     val state by viewModel.state.collectAsState()
     val progress by viewModel.progress.collectAsState()
 
+    // 进入页面时自动启动压缩
+    LaunchedEffect(Unit) {
+        val task = com.sezip.sezip.model.PendingCompressTask
+        if (task.consume()) {
+            viewModel.startCompress(task.inputPaths, task.outputDir, task.outputName, task.options)
+            task.clear()
+        }
+    }
+
     // 压缩完成后自动导航到结果页
     LaunchedEffect(state) {
         if (state is OperationState.Completed) {

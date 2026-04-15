@@ -382,7 +382,7 @@ impl Decompressor {
     }
 
     /// 验证密码是否正确
-    pub fn verify_password(&self, archive_path: &str, password: &str) -> SzResult<bool> {
+    pub fn verify_password(&self, archive_path: &str, _password: &str) -> SzResult<bool> {
         // 尝试列出内容来验证密码
         match self.list_contents(archive_path) {
             Ok(_) => Ok(true),

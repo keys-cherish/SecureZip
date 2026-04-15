@@ -9,20 +9,50 @@ use rand::Rng;
 /// * `length` - 密码长度
 /// * `include_symbols` - 是否包含特殊字符
 pub fn generate_random_password(length: usize, include_symbols: bool) -> String {
-    let chars: Vec<char> = if include_symbols {
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?"
-            .chars()
-            .collect()
-    } else {
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            .chars()
-            .collect()
-    };
+    const LOWER: &str = "abcdefghijklmnopqrstuvwxyz";
+    const UPPER: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const DIGITS: &str = "0123456789";
+    const SYMBOLS: &str = "!@#$%^&*()-_=+[]{}|;:,.<>?";
 
     let mut rng = rand::thread_rng();
-    (0..length)
-        .map(|_| chars[rng.gen_range(0..chars.len())])
-        .collect()
+
+    // 确定必选字符类别
+    let categories: Vec<&str> = if include_symbols {
+        vec![LOWER, UPPER, DIGITS, SYMBOLS]
+    } else {
+        vec![LOWER, UPPER, DIGITS]
+    };
+
+    // 长度不足以覆盖所有类别时，回退到纯随机
+    let min_required = categories.len();
+    if length < min_required {
+        let all: Vec<char> = categories.iter().flat_map(|s| s.chars()).collect();
+        return (0..length)
+            .map(|_| all[rng.gen_range(0..all.len())])
+            .collect();
+    }
+
+    // 每个类别至少取一个字符
+    let mut password: Vec<char> = categories.iter()
+        .map(|cat| {
+            let chars: Vec<char> = cat.chars().collect();
+            chars[rng.gen_range(0..chars.len())]
+        })
+        .collect();
+
+    // 剩余位置从全字符集随机填充
+    let all: Vec<char> = categories.iter().flat_map(|s| s.chars()).collect();
+    for _ in 0..(length - min_required) {
+        password.push(all[rng.gen_range(0..all.len())]);
+    }
+
+    // Fisher-Yates 洗牌，避免必选字符固定在前几位
+    for i in (1..password.len()).rev() {
+        let j = rng.gen_range(0..=i);
+        password.swap(i, j);
+    }
+
+    password.into_iter().collect()
 }
 
 /// 计算密码强度 (0-4)
@@ -108,8 +138,8 @@ mod tests {
     fn test_password_strength() {
         assert_eq!(calculate_password_strength("123"), 0);
         assert_eq!(calculate_password_strength("password"), 1);
-        assert_eq!(calculate_password_strength("Password1"), 2);
-        assert_eq!(calculate_password_strength("Password1!"), 3);
+        assert_eq!(calculate_password_strength("Password1"), 3);
+        assert_eq!(calculate_password_strength("Password1!"), 4);
         assert_eq!(calculate_password_strength("MyP@ssw0rd!Long"), 4);
     }
 

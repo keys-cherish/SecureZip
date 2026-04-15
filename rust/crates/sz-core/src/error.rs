@@ -44,6 +44,15 @@ pub enum SzError {
     #[error("操作取消")]
     Cancelled,
 
+    #[error("数据损坏: {0}")]
+    DataCorrupted(String),
+
+    #[error("恢复失败: {0}")]
+    RecoveryFailed(String),
+
+    #[error("格式不支持: {0}")]
+    UnsupportedFormat(String),
+
     #[error("未知错误: {0}")]
     Unknown(String),
 }

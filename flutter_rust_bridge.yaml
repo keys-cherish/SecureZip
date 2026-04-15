@@ -1,9 +1,0 @@
-# flutter_rust_bridge v2 �����ļ�
-
-rust_input: crate::api
-rust_root: rust/crates/sz-ffi
-dart_output: lib/src/rust
-
-dart_entrypoint_class_name: RustLib
-full_dep: true
-dart_format_line_length: 80

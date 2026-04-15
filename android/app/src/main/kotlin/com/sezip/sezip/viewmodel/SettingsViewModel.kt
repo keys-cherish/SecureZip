@@ -60,6 +60,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     /** Rust 库版本（同步调用，缓存结果） */
     val rustVersion: String by lazy {
-        try { com.sezip.sezip.RustBridge.getVersion() } catch (_: Exception) { "N/A" }
+        if (!com.sezip.sezip.RustBridge.isAvailable) return@lazy "不可用"
+        try { com.sezip.sezip.RustBridge.getVersion() } catch (_: Throwable) { "N/A" }
     }
 }

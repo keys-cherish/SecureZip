@@ -62,12 +62,20 @@ class DecompressViewModel(application: Application) : AndroidViewModel(applicati
             try {
                 _detectedFormat.value = RustBridge.detectFormat(path)
                 _requiresPassword.value = RustBridge.smartRequiresPassword(path)
+            } catch (_: Throwable) { }
 
-                // 尝试列出内容
+            // 尝试列出内容（zbak 专用，7z 等格式会失败但不影响）
+            try {
                 val contentsJson = RustBridge.listZbakContents(path, null)
                 _contents.value = json.decodeFromString<List<String>>(contentsJson)
-            } catch (_: Exception) {
-                // 列内容失败不影响解压
+            } catch (_: Throwable) { }
+
+            // zbak 失败后尝试 7z 列表
+            if (_contents.value.isEmpty()) {
+                try {
+                    val contentsJson = RustBridge.list7zContents(path)
+                    _contents.value = json.decodeFromString<List<String>>(contentsJson)
+                } catch (_: Throwable) { }
             }
         }
     }

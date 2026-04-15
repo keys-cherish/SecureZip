@@ -53,6 +53,10 @@ class CompressProgressViewModel(application: Application) : AndroidViewModel(app
             cancelHandle = RustBridge.cancelTokenNew()
             try {
                 val callback = createProgressCallback()
+
+                // 显示"准备中"
+                _progress.value = CompressProgress(0, 0, "准备压缩...")
+
                 val resultJson = when (options.compressMode) {
                     CompressMode.ZBAK -> RustBridge.compressZbak(
                         inputPaths.toTypedArray(), outputPath, options.password,
@@ -72,6 +76,9 @@ class CompressProgressViewModel(application: Application) : AndroidViewModel(app
                         options.compressionLevel, callback
                     )
                 }
+
+                // 压缩完成，正在写入索引/恢复记录
+                _progress.value = _progress.value.copy(currentFile = "正在完成...")
 
                 val ffiResult = json.decodeFromString<CompressResultFfi>(resultJson)
                 _state.value = OperationState.Completed(CompressResult(

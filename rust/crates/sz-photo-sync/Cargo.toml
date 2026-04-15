@@ -1,0 +1,35 @@
+[package]
+name = "sz-photo-sync"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+sz-core = { path = "../sz-core" }
+sz-crypto = { path = "../sz-crypto" }
+sz-compress = { path = "../sz-compress" }
+
+# 错误处理
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+
+# 序列化（本地索引存储）
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# 文件哈希
+sha2 = { workspace = true }
+
+# EXIF 读取
+kamadak-exif = "0.5"
+
+# 时间
+chrono = { workspace = true }
+
+# 日志
+log = { workspace = true }
+
+# 并行扫描
+rayon = { workspace = true }
+
+# 路径处理
+walkdir = "2.5"

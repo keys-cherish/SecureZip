@@ -3,16 +3,32 @@ name = "sz-compress"
 version.workspace = true
 edition.workspace = true
 
+[features]
+default = ["legacy-7z"]
+legacy-7z = ["dep:sevenz-rust"]
+
 [dependencies]
 sz-core = { path = "../sz-core" }
-sevenz-rust = { workspace = true }
+sz-crypto = { path = "../sz-crypto" }
+sevenz-rust = { workspace = true, optional = true }
 zstd = { workspace = true }
 aes-gcm = { workspace = true }
 argon2 = { workspace = true }
 rand = { workspace = true }
-tar = { workspace = true }
 thiserror = { workspace = true }
 anyhow = { workspace = true }
 num_cpus = "1.16"
 tokio = { workspace = true }
 log = { workspace = true }
+hkdf = { workspace = true }
+sha2 = { workspace = true }
+crc32fast = { workspace = true }
+reed-solomon-erasure = { workspace = true }
+byteorder = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+sz-webdav = { path = "../sz-webdav" }
+
+[dev-dependencies]
+tempfile = "3"

@@ -219,8 +219,8 @@ fun CompressScreen(
                         showGenerateButton = true,
                         onGenerate = {
                             val generated = try {
-                                RustBridge.generateRandomPassword(16, true)
-                            } catch (_: Exception) { "" }
+                            RustBridge.generateRandomPassword(16, true)
+                            } catch (_: Throwable) { "" }
                             if (generated.isNotBlank()) viewModel.setPassword(generated)
                         },
                     )
@@ -327,7 +327,15 @@ fun CompressScreen(
 
             // ── 开始压缩 ────────────────────────────────────────────────
             Button(
-                onClick = onNavigateToProgress,
+                onClick = {
+                    com.sezip.sezip.model.PendingCompressTask.set(
+                        paths = selectedPaths,
+                        dir = viewModel.getOutputDir(),
+                        name = outputName,
+                        opts = viewModel.buildOptions(),
+                    )
+                    onNavigateToProgress()
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -392,7 +400,7 @@ private fun SwitchRow(
 @Composable
 private fun PasswordStrengthBar(password: String) {
     val strength = remember(password) {
-        try { RustBridge.calculatePasswordStrength(password) } catch (_: Exception) { 0 }
+        try { RustBridge.calculatePasswordStrength(password) } catch (_: Throwable) { 0 }
     }
 
     val labels = listOf("极弱", "弱", "中等", "强", "极强")
