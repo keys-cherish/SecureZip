@@ -1,0 +1,29 @@
+# IDE
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+*.swp
+
+# Rust
+rust/target/
+
+# Android
+/android/app/build/
+/android/build/
+/android/.gradle/
+/android/local.properties
+*.apk
+*.aab
+
+# Gradle
+.gradle/
+
+# Misc
+/build/
+*.log
+*.class

@@ -6,6 +6,7 @@ members = [
     "crates/sz-crypto",
     "crates/sz-webdav",
     "crates/sz-filename",
+    "crates/sz-photo-sync",
     "crates/sz-ffi",
 ]
 
@@ -36,13 +37,28 @@ sha2 = "0.10"
 rand = "0.8"
 base64 = "0.21"
 argon2 = "0.5"
+hkdf = "0.12"
+
+# 数据完整性与恢复
+crc32fast = "1.3"
+reed-solomon-erasure = "6.0"
+byteorder = "1.5"
+
+# 并行处理
+rayon = "1.10"
 
 # WebDAV
 reqwest = { version = "0.11", default-features = false, features = ["json", "stream", "blocking", "rustls-tls"] }
 quick-xml = "0.31"
 
-# FFI
-flutter_rust_bridge = "2.0"
+# 目录遍历
+walkdir = "2.5"
+
+# EXIF 解析
+kamadak-exif = "0.5"
+
+# JNI
+jni = "0.21"
 
 # 工具
 uuid = { version = "1.6", features = ["v4", "serde"] }

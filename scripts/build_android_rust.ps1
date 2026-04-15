@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 # Android Rust 库构建脚本
 # 使用 cargo-ndk 交叉编译 Rust 库到 Android 目标平台
 

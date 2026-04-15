@@ -4,21 +4,30 @@ version.workspace = true
 edition.workspace = true
 
 [lib]
-crate-type = ["cdylib", "staticlib"]
+crate-type = ["cdylib"]
 
 [dependencies]
 sz-core = { path = "../sz-core" }
 sz-compress = { path = "../sz-compress" }
 sz-crypto = { path = "../sz-crypto" }
-# sz-webdav = { path = "../sz-webdav" }  # WebDAV 需要 OpenSSL，暂时禁用
+sz-webdav = { path = "../sz-webdav" }
 sz-filename = { path = "../sz-filename" }
-# flutter_rust_bridge = { workspace = true }  # 使用手动 C ABI，不需要 FRB
-sevenz-rust = { workspace = true }   # 7z 支持 ✅
-zstd = { workspace = true }          # Zstd 压缩 ✅
-aes-gcm = { workspace = true }       # AES-GCM 加密 ✅
-argon2 = { workspace = true }        # 密码派生密钥 ✅ (专业!)
-tokio = { workspace = true }
+sz-photo-sync = { path = "../sz-photo-sync" }
+
+# JNI
+jni = { workspace = true }
 anyhow = { workspace = true }
+
+# 序列化（复杂返回值用 JSON）
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# 加密 API 需要
+base64 = { workspace = true }
+
+# 时间（照片备份索引需要）
+chrono = { workspace = true }
+
+# 日志
 log = { workspace = true }
 env_logger = { workspace = true }
-base64 = { workspace = true }
