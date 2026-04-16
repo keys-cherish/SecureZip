@@ -26,6 +26,7 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "SecureZip APK 构建脚本" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "模式: $(if ($Release) { 'Release' } else { 'Debug' })" -ForegroundColor Yellow
+Write-Host "说明: 手机安装请优先使用 arm64-v8a / armeabi-v7a，模拟器使用 x86_64；universal 体积最大" -ForegroundColor Gray
 
 # 步骤 1: 构建 Rust 库
 if (-not $SkipRust) {
